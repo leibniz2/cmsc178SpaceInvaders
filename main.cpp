@@ -20,11 +20,11 @@ class VectorContainer{
         vector<Alien> aliens;
 };
 
-void moveAlien(Alien alien, boolean add,int x, int y, int type){
+void moveAlien(Alien alien, boolean add,int x, int y, int type, bool &willBlink, int timer){
     if (type == 0)
-        alien.drawAlien1(x, y);
+        alien.drawRocketAlien(x, y, timer );
     else if (type == 1)
-        alien.drawAlien2(x, y);
+        alien.drawBlinkingAlien(x, y, willBlink);
     mciSendString("play .\\assets\\zzz.wav",NULL,0,NULL);
 }
 
@@ -148,13 +148,14 @@ void startGame(int page, int &level, int &score, double &inc){
     double k = .07 - inc, angle = 0;
     int timer = 0, bullets_left = 5;
     char msg[12], msg2[12], msg3[18];
+    bool willBlink = true;
 
     //----GAME LOOP----------
     for(int i=0, j=0, b=0;!isGameOver;i+=10,b++){
         setactivepage(page);
         setvisualpage(1-page);
         cleardevice();
-        setcolor(level);
+        //setcolor(level);
         if (j>=250){ // first zone
             k = 0.03 - inc ;
         } else if(j>=150){ // second zone
@@ -196,11 +197,14 @@ void startGame(int page, int &level, int &score, double &inc){
                 vectorContainer.aliens[ctr].x = vectorContainer.aliens[ctr].x - i;
             }
             vectorContainer.aliens[ctr].y = vectorContainer.aliens[ctr].type*50 + j;
-            moveAlien(vectorContainer.aliens[ctr],add,vectorContainer.aliens[ctr].x, vectorContainer.aliens[ctr].y, vectorContainer.aliens[ctr].type);
+            moveAlien(vectorContainer.aliens[ctr],add,vectorContainer.aliens[ctr].x, vectorContainer.aliens[ctr].y, vectorContainer.aliens[ctr].type, willBlink, timer);
         }
+
+
 
         if( timer == 17 ) {
             isAllowedToShot = true;
+            willBlink = !willBlink;
             timer = 0;
         }
 
@@ -252,7 +256,7 @@ void startGame(int page, int &level, int &score, double &inc){
 }
 
 int main(){
-    initwindow(640,480,"Space Invaders",GetSystemMetrics(SM_CXSCREEN)/6,GetSystemMetrics(SM_CYSCREEN)/8);
+    initwindow(640,480,"CMSC 178: Game",GetSystemMetrics(SM_CXSCREEN)/6,GetSystemMetrics(SM_CYSCREEN)/8);
     int level = 1, score = 0;
     double inc = 0.0;
 

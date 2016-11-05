@@ -8,9 +8,10 @@ class Alien
     public:
         MyPolygon polygon;
         int x, y, ctr, type;
-        void drawAlien1(int,int);
-        void drawAlien2(int,int);
-        void drawAlien3(int,int);
+        void drawBlinkingAlien(int,int, bool);
+        void drawRocketAlien(int, int, int);
+        void drawClownAlien(int, int, bool);
+        void drawJigsawAlien(int, int, bool);
 
     protected:
 

@@ -106,12 +106,12 @@
 1474613930 source:h:\spaceinvaders\mytext.cpp
 	"MyText.h"
 
-1475554595 source:r:\spaceinvaders\alien.cpp
+1478365764 source:r:\spaceinvaders\alien.cpp
 	"Alien.h"
 	<graphics.h>
 	<math.h>
 
-1475553542 r:\spaceinvaders\alien.h
+1478364874 r:\spaceinvaders\alien.h
 	"MyPolygon.h"
 
 1474607612 r:\spaceinvaders\mypolygon.h
@@ -122,7 +122,7 @@
 1474608608 r:\spaceinvaders\alphabets.h
 	"MyPolygon.h"
 
-1474608160 source:r:\spaceinvaders\bullet.cpp
+1478364436 source:r:\spaceinvaders\bullet.cpp
 	"Bullet.h"
 	<graphics.h>
 	<math.h>
@@ -135,7 +135,7 @@
 1474608422 r:\spaceinvaders\canon.h
 	"MyPolygon.h"
 
-1478066215 source:r:\spaceinvaders\main.cpp
+1478365701 source:r:\spaceinvaders\main.cpp
 	<windows.h>
 	<mmsystem.h>
 	<graphics.h>
