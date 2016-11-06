@@ -1,12 +1,12 @@
 #ifndef CANON_H
 #define CANON_H
 
-#include "MyPolygon.h"
+#include "Blocks.h"
 
 class Canon
 {
     public:
-        MyPolygon polygon;
+        Blocks polygon;
         void drawPlatform(int, int);
         void drawCanon(int, int, double);
         void drawPixel(int, int, int, int);

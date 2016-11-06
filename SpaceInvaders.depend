@@ -111,8 +111,8 @@
 	<graphics.h>
 	<math.h>
 
-1478364874 r:\spaceinvaders\alien.h
-	"MyPolygon.h"
+1478413842 r:\spaceinvaders\alien.h
+	"Blocks.h"
 
 1474607612 r:\spaceinvaders\mypolygon.h
 
@@ -129,13 +129,13 @@
 
 1474608126 r:\spaceinvaders\bullet.h
 
-1475561999 source:r:\spaceinvaders\canon.cpp
+1478366265 source:r:\spaceinvaders\canon.cpp
 	"Canon.h"
 
-1474608422 r:\spaceinvaders\canon.h
-	"MyPolygon.h"
+1478413880 r:\spaceinvaders\canon.h
+	"Blocks.h"
 
-1478365701 source:r:\spaceinvaders\main.cpp
+1478435705 source:r:\spaceinvaders\main.cpp
 	<windows.h>
 	<mmsystem.h>
 	<graphics.h>
@@ -143,10 +143,11 @@
 	<vector>
 	<stdio.h>
 	<iostream>
-	"MyPolygon.h"
+	"Blocks.h"
 	"Bullet.h"
 	"Alien.h"
 	"Canon.h"
+	"Text.h"
 
 1474613782 r:\spaceinvaders\mytext.h
 	"Alphabets.h"
@@ -158,4 +159,19 @@
 
 1474613930 source:r:\spaceinvaders\mytext.cpp
 	"MyText.h"
+
+1478417796 source:r:\spaceinvaders\blocks.cpp
+	"Blocks.h"
+	<graphics.h>
+	<math.h>
+
+1478417766 r:\spaceinvaders\blocks.h
+
+1478431621 r:\spaceinvaders\text.h
+	"Blocks.h"
+
+1478435282 source:r:\spaceinvaders\text.cpp
+	"Text.h"
+	<graphics.h>
+	<math.h>
 

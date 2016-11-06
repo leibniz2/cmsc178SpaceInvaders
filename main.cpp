@@ -6,10 +6,11 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "MyPolygon.h"
+#include "Blocks.h"
 #include "Bullet.h"
 #include "Alien.h"
 #include "Canon.h"
+#include "Text.h"
 
 
 using namespace std;
@@ -25,7 +26,7 @@ void moveAlien(Alien alien, boolean add,int x, int y, int type, bool &willBlink,
         alien.drawRocketAlien(x, y, timer );
     else if (type == 1)
         alien.drawBlinkingAlien(x, y, willBlink);
-    mciSendString("play .\\assets\\zzz.wav",NULL,0,NULL);
+    //mciSendString("play .\\assets\\zzz.wav",NULL,0,NULL);
 }
 
 vector<Alien> addAlien(vector<Alien> aliens){
@@ -97,7 +98,7 @@ VectorContainer checkCollision(VectorContainer vectorContainer, int &score, int 
                (ax1 <= bx4 && ax2 >= bx4 && ax3 <= bx4 && ax4 >= bx4 && ay1 <= by4 && ay2 <= by4 && ay3 >= by4 && ay4 >= by4)){
                 vectorContainer.aliens.erase (vectorContainer.aliens.begin()+a);
                 vectorContainer.bullets.erase (vectorContainer.bullets.begin()+b);
-                mciSendString("play .\\assets\\destroyed.wav",NULL,0,NULL);
+                //mciSendString("play .\\assets\\destroyed.wav",NULL,0,NULL);
                 score++;
                 if(bullets_left !=5){
                     bullets_left++;
@@ -123,16 +124,16 @@ boolean checkisGameOver(vector<Alien> aliens){
 void showResults(int page, boolean isStageComplete){
     cleardevice();
     setcolor(11);
-    mciSendString("stop .\\assets\\zzz.wav",NULL,0,NULL);
-    mciSendString("close .\\assets\\zzz.wav",NULL,0,NULL);
+   // mciSendString("stop .\\assets\\zzz.wav",NULL,0,NULL);
+    //mciSendString("close .\\assets\\zzz.wav",NULL,0,NULL);
     if(isStageComplete){
         outtextxy(10, 10, "Get ready to next level!");
     }
     else{
         outtextxy(10, 10, "Game over! Starting again!");
-        mciSendString("play .\\assets\\over.wav",NULL,0,NULL);
+        //mciSendString("play .\\assets\\over.wav",NULL,0,NULL);
         Sleep(500);
-        mciSendString("close .\\assets\\over.wav",NULL,0,NULL);
+       // mciSendString("close .\\assets\\over.wav",NULL,0,NULL);
         Sleep(1500);
 
     }
@@ -150,12 +151,16 @@ void startGame(int page, int &level, int &score, double &inc){
     char msg[12], msg2[12], msg3[18];
     bool willBlink = true;
 
+    int windowWidth = getwindowwidth();
+    int windowHeight = getwindowheight();
+
+    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
     //----GAME LOOP----------
     for(int i=0, j=0, b=0;!isGameOver;i+=10,b++){
         setactivepage(page);
         setvisualpage(1-page);
         cleardevice();
-        //setcolor(level);
+
         if (j>=250){ // first zone
             k = 0.03 - inc ;
         } else if(j>=150){ // second zone
@@ -177,7 +182,7 @@ void startGame(int page, int &level, int &score, double &inc){
             angle-=3;
         }
         if (GetAsyncKeyState( VK_SPACE ) & 0x8000 && b>8 && isAllowedToShot && bullets_left != 0){
-            mciSendString("play .\\assets\\player_shot.wav",NULL,0,NULL);
+            //mciSendString("play .\\assets\\player_shot.wav",NULL,0,NULL);
             Bullet bullet;
             bullet.x = 330;
             bullet.y = 460;
@@ -210,7 +215,6 @@ void startGame(int page, int &level, int &score, double &inc){
 
         // user
         setcolor(11);
-
         canon.drawPlatform(310,455);
         canon.drawCanon(330,460, angle);
 
@@ -226,9 +230,9 @@ void startGame(int page, int &level, int &score, double &inc){
         sprintf(msg2, "Level: %d", level);
         sprintf(msg, "Score: %d", score);
         sprintf(msg3, "Bullets Left: %d", bullets_left);
-        outtextxy(10,30, msg3);
+        outtextxy(10, windowHeight - 80, msg);
         outtextxy(10,10, msg2);
-        outtextxy(70,10, msg);
+        outtextxy(10, windowHeight - 60, msg3);
         vectorContainer = vectorContainer;
         vectorContainer.bullets = checkBullets(vectorContainer.bullets);
 
@@ -256,17 +260,63 @@ void startGame(int page, int &level, int &score, double &inc){
 }
 
 int main(){
-    initwindow(640,480,"CMSC 178: Game",GetSystemMetrics(SM_CXSCREEN)/6,GetSystemMetrics(SM_CYSCREEN)/8);
-    int level = 1, score = 0;
+    initwindow(640, 480, "CMSC 178: Game", GetSystemMetrics(SM_CXSCREEN)/6, GetSystemMetrics(SM_CYSCREEN)/8 );
+    bool isRunning = true;
+    int level = 1, score = 0, pointer = 210;
     double inc = 0.0;
 
-    //Sleep(3000);
-    while(true){
-        int page = 0;
-        cleardevice();
-        startGame(page, level, score, inc);
-        Sleep(1*1000);
+    Text text;
+
+    //INITIAL RENDER
+    text.drawPointer(pointer);
+    text.drawMainMenu();
+    while(isRunning) {
+        if(GetAsyncKeyState( VK_DOWN )) {
+            //pointer == 300 ? 210 : pointer+=30;
+            if(pointer == 300) {
+                pointer = 210;
+            } else {
+                pointer+=30;
+            }
+            text.drawPointer(pointer);
+            text.drawMainMenu();
+        }
+        if(GetAsyncKeyState( VK_UP )) {
+            //pointer == 210 ? 300 : pointer-=30;
+            if(pointer == 210) {
+                pointer = 300;
+            } else {
+                pointer-=30;
+            }
+            text.drawPointer(pointer);
+            text.drawMainMenu();
+        }
+        if(GetAsyncKeyState( VK_ESCAPE )){
+            text.drawPointer(pointer);
+            text.drawMainMenu();
+        }
+        if(GetAsyncKeyState( VK_RETURN)) {
+            switch (pointer) {
+                case 210:
+                    startGame(0, level, score, inc);
+                    break;
+                case 240:
+                    startGame(0, level, score, inc);
+                    break;
+                case 270:
+                    cleardevice();
+                    text.drawHowToPlay();
+                    break;
+                case 300:
+                    isRunning = false;
+                    break;
+                default:
+                    std::cout << "Unknown selection" << endl;
+            }
+        }
+        Sleep(100);
     }
+
     getch();
     closegraph();
     return 0;

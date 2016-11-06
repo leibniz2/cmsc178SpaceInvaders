@@ -1,12 +1,12 @@
 #ifndef ALIEN_H
 #define ALIEN_H
 
-#include "MyPolygon.h"
+#include "Blocks.h"
 
 class Alien
 {
     public:
-        MyPolygon polygon;
+        Blocks polygon;
         int x, y, ctr, type;
         void drawBlinkingAlien(int,int, bool);
         void drawRocketAlien(int, int, int);
